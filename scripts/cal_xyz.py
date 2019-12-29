@@ -38,13 +38,14 @@ class Subscribe(Publishers):
     def __init__(self):
         self.pose_pub = pub = rospy.Publisher('/pir2/human_pose', Pose, queue_size=10)
 
-        self.pcl_sub = message_filters.Subscriber('/points', PointCloud2)
+        self.pcl_sub = message_filters.Subscriber('/camera/depth_registered/points', PointCloud2)
         self.hp_sub = message_filters.Subscriber('/ros_openvino_toolkit/headposes_estimation', HeadPoseStamped)
 
-        ts = message_filters.TimeSynchronizer([self.pcl_sub, self.hp_sub], 10)
+        ts = message_filters.TimeSynchronizer([self.pcl_sub, self.hp_sub], 1000)
         ts.registerCallback(self.callback)
 
     def callback(self, pcl_msg, hp_msg):
+	print "in"
         u = hp.headposes[0].roi.x_offset
         v = hp.headposes[0].roi.y_offset
         r = hp.headposes[0].roll
