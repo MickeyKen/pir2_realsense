@@ -79,7 +79,7 @@ class Subscribe(Publishers):
         # print pixel
         if pixel < 148346:
             self.make_image(u,v,depth_msg)
-            print ord(depth_msg.data[pixel])
+            print ord(depth_msg.data[u][v])
         # x,y,z = self.pixelTo3DPoint(pcl_msg, u, v)
         # self.make_pose(x,y,z,r,p,yaw)
 
