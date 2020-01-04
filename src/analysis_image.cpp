@@ -48,6 +48,6 @@ float distance = 0.0;
  {
    ros::init(argc, argv, "image_listener");
    ros::NodeHandle nh;
-   ros::Subscriber sub = nh.subscribe("camera/image", 1000, imageCallback);
+   ros::Subscriber sub = nh.subscribe("camera/aligned_depth_to_color/image_raw", 1000, imageCallback);
    ros::spin();
  }
