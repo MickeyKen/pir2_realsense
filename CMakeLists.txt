@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf
   people_msgs
   cv_bridge
+  message_filters
 )
 
 ## System dependencies are found with CMake's conventions
@@ -130,11 +131,14 @@ include_directories(
 #   src/${PROJECT_NAME}/pir2_realsense.cpp
 # )
 
-#add_executable(cal_xyz_depth src/cal_xyz_depth.cpp)
-#target_link_libraries(cal_xyz_depth ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_executable(cal_xyz_depth src/cal_xyz_depth.cpp)
+target_link_libraries(cal_xyz_depth ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 add_executable(analysis_image src/analysis_image.cpp)
 target_link_libraries(analysis_image ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+add_executable(sync_sample src/sync_sample.cpp)
+target_link_libraries(sync_sample ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
