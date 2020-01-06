@@ -27,7 +27,7 @@ using namespace message_filters;
 void syncMsgsCB(const sensor_msgs::ImageConstPtr &img_msg, const people_msgs::HeadPoseStampedConstPtr &pose_msg){
 
    u = pose_msg->headposes[0].roi.x_offset + (pose_msg->headposes[0].roi.width/2);
-   std::cout<<u<<std::endl;
+   // std::cout<<u<<std::endl;
 
    if (u > (320-image_offset) && u < (320+image_offset)) {
      cmd_msg.angular.z = 0.0;
@@ -43,8 +43,8 @@ void syncMsgsCB(const sensor_msgs::ImageConstPtr &img_msg, const people_msgs::He
        // return;
      }
 
-     distance = 0.001*cv_ptr->image.at<u_int16_t>(u, 240);
-     std::cout<<distance<<std::endl;
+     distance = (0.001*cv_ptr->image.at<u_int16_t>(u, 240) + 0.001*cv_ptr->image.at<u_int16_t>(u+1, 240) + 0.001*cv_ptr->image.at<u_int16_t>(u-1, 240)) / 3.0;
+     // std::cout<<distance<<std::endl;
 
      if (distance > (1.2 - dis_offset) && distance < (1.2 + dis_offset)) {
        cmd_msg.linear.x = 0.0;
