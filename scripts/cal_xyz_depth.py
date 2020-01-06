@@ -28,7 +28,7 @@ class Publishers():
             print(e)
 
         # pixel = (v-1)*depth_msg.width + u
-        cv_image = cv2.circle(cv_image,(u,v), 50, (0,0,0), -1)
+        cv_image = cv2.circle(cv_image,(u,v), 10, (0,0,0), -1)
         cv2.imshow("Image window", cv_image)
         cv2.waitKey(3)
         # img_msg = self.bridge.cv2_to_imgmsg(cv_image, "32FC1")
@@ -60,7 +60,7 @@ class Subscribe(Publishers):
         self.image_pub = rospy.Publisher("/image_topic_2",Image, queue_size=10)
         self.bridge = CvBridge()
 
-        self.pcl_sub = message_filters.Subscriber('/camera/aligned_depth_to_color/image_raw', Image)
+        self.pcl_sub = message_filters.Subscriber('/camera/depth/image_rect_raw', Image)
         self.hp_sub = message_filters.Subscriber('/ros_openvino_toolkit/headposes_estimation', HeadPoseStamped)
 
         ts = message_filters.ApproximateTimeSynchronizer([self.pcl_sub, self.hp_sub],10, 0.1, allow_headerless=True)
@@ -78,8 +78,8 @@ class Subscribe(Publishers):
         # distance = depth_msg.data[pixel]
         # print pixel
         if pixel < 148346:
-            self.make_image(u,v,depth_msg)
-            print ord(depth_msg.data[u][v])
+            self.make_image(u,240,depth_msg)
+            print ord(depth_msg.data[0][0])
         # x,y,z = self.pixelTo3DPoint(pcl_msg, u, v)
         # self.make_pose(x,y,z,r,p,yaw)
 

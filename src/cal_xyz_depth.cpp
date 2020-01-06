@@ -15,7 +15,7 @@ int u = 0;
 int v = 0;
 
 int image_offset = 50;
-float dis_offset = 0.4;
+float dis_offset = 0.2;
 
 ros::Publisher cmd_pub;
 int number = 0;
@@ -50,10 +50,10 @@ void syncMsgsCB(const sensor_msgs::ImageConstPtr &img_msg, const people_msgs::He
        cmd_msg.linear.x = 0.0;
 
      } else if (distance < (1.2 - dis_offset) && distance > 0.0) {
-       cmd_msg.linear.x = -0.1;
+       cmd_msg.linear.x = -0.15;
 
      } else if (distance > (1.2 + dis_offset && distance < 2.5)) {
-       cmd_msg.linear.x = 0.1;
+       cmd_msg.linear.x = 0.15;
 
      } else {
        cmd_msg.linear.x = 0.0;
@@ -62,7 +62,7 @@ void syncMsgsCB(const sensor_msgs::ImageConstPtr &img_msg, const people_msgs::He
    } else if (u < (320-image_offset)) {
      cmd_msg.linear.x = 0.0;
      if (u > (320-image_offset-100)) {
-       cmd_msg.angular.z = 0.1;
+       cmd_msg.angular.z = 0.15;
      } else {
        cmd_msg.angular.z = 0.3;
      }
@@ -70,7 +70,7 @@ void syncMsgsCB(const sensor_msgs::ImageConstPtr &img_msg, const people_msgs::He
    } else if (u > (320+image_offset)) {
      cmd_msg.linear.x = 0.0;
      if (u < (320+image_offset+100)) {
-       cmd_msg.angular.z = -0.1;
+       cmd_msg.angular.z = -0.15;
      } else {
        cmd_msg.angular.z = -0.3;
      }
@@ -86,7 +86,7 @@ void syncMsgsCB(const sensor_msgs::ImageConstPtr &img_msg, const people_msgs::He
  {
    ros::init(argc, argv, "image_listener");
    ros::NodeHandle nh;
-   message_filters::Subscriber<sensor_msgs::Image> odom_sub(nh, "camera/aligned_depth_to_color/image_raw", 1000);
+   message_filters::Subscriber<sensor_msgs::Image> odom_sub(nh, "camera/depth/image_rect_raw", 1000);
    message_filters::Subscriber<people_msgs::HeadPoseStamped> imu_sub(nh, "/ros_openvino_toolkit/headposes_estimation", 1000);
 
    typedef sync_policies::ApproximateTime<sensor_msgs::Image, people_msgs::HeadPoseStamped> MySyncPolicy;

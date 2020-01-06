@@ -7,7 +7,9 @@
 		<arg name="align_depth" value="true"/>
 	  </include>
   </group> -->
-  <include file="$(find realsense2_camera)/launch/rs_rgbd.launch"/>
+  <include file="$(find realsense2_camera)/launch/rs_rgbd.launch">
+        <arg name="depth_fps" value="30"/>
+  </include>
 
   <node pkg="dynamic_vino_sample" type="pipeline_with_params"
         name="pipeline_with_params" output="screen">
