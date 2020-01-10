@@ -1,22 +1,12 @@
 Pipelines:
 - name: people
-  inputs: [StandardCamera]
+  inputs: [RealSenseCameraTopic]
   infers:
     - name: FaceDetection
       model: /opt/intel/computer_vision_sdk/deployment_tools/intel_models/face-detection-adas-0001/FP16/face-detection-adas-0001.xml
       engine: MYRIAD
       label: to/be/set/xxx.labels
       batch: 1
-    - name: AgeGenderRecognition
-      model: /opt/intel/computer_vision_sdk/deployment_tools/intel_models/age-gender-recognition-retail-0013/FP16/age-gender-recognition-retail-0013.xml 
-      engine: MYRIAD
-      label: to/be/set/xxx.labels
-      batch: 16
-    - name: EmotionRecognition
-      model: /opt/intel/computer_vision_sdk/deployment_tools/intel_models/emotions-recognition-retail-0003/FP16/emotions-recognition-retail-0003.xml
-      engine: MYRIAD
-      label: to/be/set/xxx.labels
-      batch: 16
     - name: HeadPoseEstimation
       model: /opt/intel/computer_vision_sdk/deployment_tools/intel_models/head-pose-estimation-adas-0001/FP16/head-pose-estimation-adas-0001.xml
       engine: MYRIAD
@@ -25,15 +15,12 @@ Pipelines:
   outputs: [ImageWindow, RosTopic,RViz]
   confidence_threshold: 0.2
   connects:
-    - left: StandardCamera
+    - left: RealSenseCameraTopic
       right: [FaceDetection]
     - left: FaceDetection
-      right: [AgeGenderRecognition, EmotionRecognition, HeadPoseEstimation, ImageWindow, RosTopic, RViz]
-    - left: AgeGenderRecognition
-      right: [ImageWindow, RosTopic,RViz]
-    - left: EmotionRecognition
-      right: [ImageWindow, RosTopic,RViz]
+      right: [HeadPoseEstimation, ImageWindow, RosTopic, Rviz]
     - left: HeadPoseEstimation
       right: [ImageWindow, RosTopic,RViz]
 
 OpenvinoCommon:
+
