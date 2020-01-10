@@ -9,18 +9,20 @@
 #include <message_filters/subscriber.h>
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
+#include <std_msgs/Int16.h>
 
 float distance = 0.0;
 int u = 0;
 int v = 0;
-
+std::string flag = "openvino_on";
 int image_offset = 50;
 float dis_offset = 0.2;
-
-ros::Publisher cmd_pub;
+std::string global_name;
+ros::Publisher cmd_pub, img_pub;
 int number = 0;
 float HZ = 1;
 geometry_msgs::Twist cmd_msg;
+std_msgs::Int16 img_msg;
 
 using namespace message_filters;
 
@@ -95,13 +97,20 @@ void syncMsgsCB(const sensor_msgs::ImageConstPtr &img_msg, const people_msgs::He
 
    cmd_pub = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1000);
    cmd_msg = geometry_msgs::Twist();
+   img_pub = nh.advertise<std_msgs::Int16>("/pir2_image", 1000);
+   img_msg = std_msgs::Int16();
 
    if (HZ > 0)
    {
      ros::Rate loop_rate(10);
      while (ros::ok())
      {
-       cmd_pub.publish(cmd_msg);
+       if (nh.getParam("/head_trace_server/flag", global_name)) {
+         if (global_name == flag) {
+           cmd_pub.publish(cmd_msg);
+           img_pub.publish(img_msg);
+         }
+       }
        ros::spinOnce();
        loop_rate.sleep();
      }
