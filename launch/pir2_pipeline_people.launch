@@ -1,5 +1,5 @@
 <launch>
-  <arg name="param_file" value="$(find pir2_realsense)/param/pipeline_people_myriad.yaml" />
+  <arg name="param_file" value="$(find pir2_realsense)/param/pipeline_people_oss.yaml" />
   <arg name="default_rviz" value="$(find vino_launch)/param/rviz/default.rviz" />
 
   <include file="$(find realsense2_camera)/launch/rs_rgbd.launch">
